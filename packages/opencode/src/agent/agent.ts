@@ -32,6 +32,7 @@ export namespace Agent {
         .optional(),
       prompt: z.string().optional(),
       tools: z.record(z.string(), z.boolean()),
+      subagents: z.record(z.string(), z.boolean()),
       options: z.record(z.string(), z.any()),
       maxSteps: z.number().int().positive().optional(),
     })
@@ -109,6 +110,7 @@ export namespace Agent {
           todowrite: false,
           ...defaultTools,
         },
+        subagents: {},
         options: {},
         permission: agentPermission,
         mode: "subagent",
@@ -152,6 +154,7 @@ export namespace Agent {
       build: {
         name: "build",
         tools: { ...defaultTools },
+        subagents: {},
         options: {},
         permission: agentPermission,
         mode: "primary",
@@ -164,6 +167,7 @@ export namespace Agent {
         tools: {
           ...defaultTools,
         },
+        subagents: {},
         mode: "primary",
         builtIn: true,
       },
@@ -181,21 +185,35 @@ export namespace Agent {
           permission: agentPermission,
           options: {},
           tools: {},
+          subagents: {},
           builtIn: false,
         }
       const {
+       
         name,
+       
         model,
+       
         prompt,
+       
         tools,
+        subagents,
+       
         description,
+       
         temperature,
+       
         top_p,
+       
         mode,
+       
         permission,
+       
         color,
+       
         maxSteps,
         ...extra
+     
       } = value
       item.options = {
         ...item.options,
@@ -212,6 +230,11 @@ export namespace Agent {
         ...defaultTools,
         ...item.tools,
       }
+      if (subagents)
+        item.subagents = {
+          ...item.subagents,
+          ...subagents,
+        }
       if (description) item.description = description
       if (temperature != undefined) item.temperature = temperature
       if (top_p != undefined) item.topP = top_p

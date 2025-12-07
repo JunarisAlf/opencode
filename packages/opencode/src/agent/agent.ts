@@ -146,6 +146,7 @@ export namespace Agent {
           ``,
           `Complete the user's search request efficiently and report your findings clearly.`,
         ].join("\n"),
+        subagents: {},
         options: {},
         permission: agentPermission,
         mode: "subagent",

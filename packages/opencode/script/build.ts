@@ -78,7 +78,13 @@ const allTargets: {
 ]
 
 const targets = singleFlag
-  ? allTargets.filter((item) => item.os === process.platform && item.arch === process.arch)
+  ? allTargets.filter((item) => 
+      item.os === process.platform && 
+      item.arch === process.arch &&
+      // Only match targets without special variants for current machine
+      !item.abi && 
+      item.avx2 !== false
+    )
   : allTargets
 
 await $`rm -rf dist`
